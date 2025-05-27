@@ -1,24 +1,46 @@
 import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
 
-const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+  message?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
+  message = "加载中...", 
+  size = 'md' 
+}) => {
+  const sizeClasses = {
+    sm: 'h-4 w-4',
+    md: 'h-8 w-8',
+    lg: 'h-12 w-12'
+  };
+
+  const textSizeClasses = {
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg'
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="text-center">
-        <div className="relative">
-          {/* 旋转的游戏手柄 */}
-          <div className="text-8xl mb-6 animate-bounce">🎮</div>
-        </div>
-        
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">加载中...</h2>
-        <p className="text-gray-600">正在为您准备精彩内容</p>
-        
-        {/* 进度条动画 */}
-        <div className="mt-6 w-64 mx-auto">
-          <div className="bg-gray-200 rounded-full h-2">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full animate-pulse" style={{width: '60%'}}></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100 flex items-center justify-center p-4">
+      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+        <CardContent className="pt-8 pb-6">
+          <div className="flex flex-col items-center space-y-4">
+            {/* 加载图标 */}
+            <Loader2 className={`${sizeClasses[size]} animate-spin text-primary`} />
+            
+            {/* 加载文本 */}
+            <p className={`${textSizeClasses[size]} text-muted-foreground font-medium`}>
+              {message}
+            </p>
+            
+            {/* 游戏图标装饰 */}
+            <div className="text-2xl opacity-50">🎮</div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

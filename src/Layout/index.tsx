@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
+import { Menu, Home, Gamepad2 } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +59,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleGamesClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    setIsMobileMenuOpen(false); // 关闭移动端菜单
     
     if (location.pathname === '/') {
       // 如果在首页，直接滚动到游戏区域
@@ -73,9 +79,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   };
 
+  const handleHomeClick = () => {
+    setIsMobileMenuOpen(false);
+    navigate('/');
+  };
+
   const navigation = [
-    { name: '首页', href: '/', icon: '🏠' },
-    { name: '游戏', href: '/games', icon: '🎮', onClick: handleGamesClick },
+    { name: '首页', href: '/', icon: Home, onClick: handleHomeClick },
+    { name: '游戏', href: '/games', icon: Gamepad2, onClick: handleGamesClick },
   ];
 
   const isActive = (path: string) => {
@@ -100,81 +111,53 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <span className="text-xl font-bold text-gray-800">游戏世界</span>
             </Link>
 
-            {/* 导航链接 */}
-            <div className="hidden md:flex space-x-8">
+            {/* 桌面端导航链接 */}
+            <div className="hidden md:flex space-x-2">
               {navigation.map((item) => (
-                item.onClick ? (
-                  <button
-                    key={item.name}
-                    onClick={item.onClick}
-                    className={`flex items-center space-x-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                      isActive(item.href)
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
-                  >
-                    <span className="text-lg">{item.icon}</span>
-                    <span>{item.name}</span>
-                  </button>
-                ) : (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={`flex items-center space-x-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                      isActive(item.href)
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
-                  >
-                    <span className="text-lg">{item.icon}</span>
-                    <span>{item.name}</span>
-                  </Link>
-                )
+                <Button
+                  key={item.name}
+                  variant={isActive(item.href) ? "default" : "ghost"}
+                  onClick={item.onClick}
+                  className="flex items-center gap-2"
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.name}
+                </Button>
               ))}
             </div>
 
             {/* 移动端菜单按钮 */}
             <div className="md:hidden">
-              <button className="text-gray-600 hover:text-gray-900 p-2">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* 移动端导航菜单 */}
-          <div className="md:hidden border-t border-gray-200">
-            <div className="py-2 space-y-1">
-              {navigation.map((item) => (
-                item.onClick ? (
-                  <button
-                    key={item.name}
-                    onClick={item.onClick}
-                    className={`flex items-center space-x-2 px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full text-left ${
-                      isActive(item.href)
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
-                  >
-                    <span className="text-lg">{item.icon}</span>
-                    <span>{item.name}</span>
-                  </button>
-                ) : (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={`flex items-center space-x-2 px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 ${
-                      isActive(item.href)
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
-                  >
-                    <span className="text-lg">{item.icon}</span>
-                    <span>{item.name}</span>
-                  </Link>
-                )
-              ))}
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">打开菜单</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <SheetHeader>
+                    <SheetTitle className="flex items-center gap-2">
+                      <span className="text-2xl">🎯</span>
+                      游戏世界
+                    </SheetTitle>
+                  </SheetHeader>
+                  <Separator className="my-4" />
+                  <div className="flex flex-col space-y-3">
+                    {navigation.map((item) => (
+                      <Button
+                        key={item.name}
+                        variant={isActive(item.href) ? "default" : "ghost"}
+                        onClick={item.onClick}
+                        className="justify-start gap-2"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        {item.name}
+                      </Button>
+                    ))}
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
         </div>
@@ -198,36 +181,59 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 为您提供最优质的游戏体验，连接全球玩家，创造无限乐趣。
               </p>
               <div className="flex space-x-4">
-                <button className="text-gray-300 hover:text-white text-2xl transition-colors">
-                  📧
-                </button>
-                <button className="text-gray-300 hover:text-white text-2xl transition-colors">
-                  🐦
-                </button>
-                <button className="text-gray-300 hover:text-white text-2xl transition-colors">
-                  📘
-                </button>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                  <span className="sr-only">Facebook</span>
+                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                  </svg>
+                </a>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                  <span className="sr-only">Instagram</span>
+                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297L3.323 17.495c-.49.49-1.297.49-1.787 0s-.49-1.297 0-1.787l1.804-1.803c-.807-.875-1.297-2.026-1.297-3.323 0-2.652 2.155-4.807 4.807-4.807s4.807 2.155 4.807 4.807-2.155 4.807-4.807 4.807zm0-7.806c-1.658 0-3 1.342-3 3s1.342 3 3 3 3-1.342 3-3-1.342-3-3-3z" clipRule="evenodd" />
+                  </svg>
+                </a>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                  <span className="sr-only">Twitter</span>
+                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
               </div>
             </div>
+            
             <div>
               <h3 className="text-lg font-semibold mb-4">快速链接</h3>
               <ul className="space-y-2">
-                <li><Link to="/" className="text-gray-300 hover:text-white transition-colors">首页</Link></li>
-                <li><button onClick={handleGamesClick} className="text-gray-300 hover:text-white transition-colors">游戏</button></li>
-                <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">关于我们</Link></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">关于我们</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">游戏规则</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">帮助中心</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">联系客服</a></li>
               </ul>
             </div>
+            
             <div>
-              <h3 className="text-lg font-semibold mb-4">联系我们</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li>📧 contact@gameworld.com</li>
-                <li>📱 +86 123 4567 8900</li>
-                <li>📍 北京市朝阳区游戏大厦</li>
+              <h3 className="text-lg font-semibold mb-4">游戏分类</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">冒险游戏</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">策略游戏</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">竞速游戏</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">动作游戏</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-            <p>&copy; 2024 游戏世界. 保留所有权利.</p>
+          
+          <Separator className="my-8 bg-gray-600" />
+          
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-300 text-sm">
+              © 2024 游戏世界. 保留所有权利.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">隐私政策</a>
+              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">服务条款</a>
+              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">Cookie 政策</a>
+            </div>
           </div>
         </div>
       </footer>

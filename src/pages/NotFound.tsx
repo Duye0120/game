@@ -1,45 +1,61 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { useNavigate } from 'react-router-dom';
+import { Home, RotateCcw } from 'lucide-react';
 
 const NotFound: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleGamesClick = () => {
+  const handleGoHome = () => {
     navigate('/');
-    setTimeout(() => {
-      const gamesSection = document.getElementById('games-section');
-      if (gamesSection) {
-        gamesSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+  };
+
+  const handleGoBack = () => {
+    window.history.back();
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-9xl mb-8">🎮</div>
-        <h1 className="text-6xl font-bold text-gray-800 mb-4">404</h1>
-        <h2 className="text-3xl font-semibold text-gray-700 mb-6">页面未找到</h2>
-        <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
-          抱歉，您访问的页面似乎迷失在了游戏世界的某个角落...
-        </p>
-        <div className="space-y-4">
-          <Link 
-            to="/" 
-            className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-8 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
-          >
-            返回首页
-          </Link>
-          <div className="mt-4">
-            <button 
-              onClick={handleGamesClick}
-              className="inline-block text-blue-600 hover:text-blue-800 font-medium underline"
-            >
-              或者去看看我们的游戏
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+        <CardContent className="pt-12 pb-8 text-center">
+          {/* 404 数字显示 */}
+          <div className="text-8xl font-bold text-gray-300 mb-4">404</div>
+          
+          {/* 图标 */}
+          <div className="text-6xl mb-6">🎮</div>
+          
+          {/* 标题 */}
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">
+            页面走丢了
+          </h1>
+          
+          {/* 描述 */}
+          <p className="text-gray-600 mb-8 leading-relaxed">
+            抱歉，您访问的页面不存在。<br />
+            可能是链接错误或页面已被移动。
+          </p>
+          
+          {/* 操作按钮 */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button onClick={handleGoHome} className="flex items-center gap-2">
+              <Home className="h-4 w-4" />
+              返回首页
+            </Button>
+            <Button onClick={handleGoBack} variant="outline" className="flex items-center gap-2">
+              <RotateCcw className="h-4 w-4" />
+              返回上页
+            </Button>
           </div>
-        </div>
-      </div>
+          
+          {/* 底部提示 */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <p className="text-sm text-gray-500">
+              如果问题持续存在，请联系我们的技术支持
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

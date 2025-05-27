@@ -1,5 +1,8 @@
 import React from 'react';
 import GameButton from '../components/GameButton';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Users, Star, Clock } from 'lucide-react';
 
 const Home: React.FC = () => {
   const games = [
@@ -10,7 +13,9 @@ const Home: React.FC = () => {
       image: "🚀",
       category: "冒险",
       players: "1-4人",
-      difficulty: "中等"
+      difficulty: "中等",
+      rating: 4.8,
+      duration: "30-60分钟"
     },
     {
       id: 2,
@@ -19,7 +24,9 @@ const Home: React.FC = () => {
       image: "🧙‍♂️",
       category: "RPG",
       players: "单人",
-      difficulty: "困难"
+      difficulty: "困难",
+      rating: 4.9,
+      duration: "60-120分钟"
     },
     {
       id: 3,
@@ -28,7 +35,9 @@ const Home: React.FC = () => {
       image: "🏎️",
       category: "竞速",
       players: "1-8人",
-      difficulty: "简单"
+      difficulty: "简单",
+      rating: 4.6,
+      duration: "15-30分钟"
     },
     {
       id: 4,
@@ -37,7 +46,9 @@ const Home: React.FC = () => {
       image: "🏰",
       category: "策略",
       players: "1-6人",
-      difficulty: "中等"
+      difficulty: "中等",
+      rating: 4.7,
+      duration: "45-90分钟"
     },
     {
       id: 5,
@@ -46,7 +57,9 @@ const Home: React.FC = () => {
       image: "🏴‍☠️",
       category: "冒险",
       players: "2-4人",
-      difficulty: "中等"
+      difficulty: "中等",
+      rating: 4.5,
+      duration: "30-45分钟"
     },
     {
       id: 6,
@@ -55,7 +68,9 @@ const Home: React.FC = () => {
       image: "🤖",
       category: "动作",
       players: "1-2人",
-      difficulty: "困难"
+      difficulty: "困难",
+      rating: 4.4,
+      duration: "20-40分钟"
     }
   ];
 
@@ -63,6 +78,26 @@ const Home: React.FC = () => {
     const gamesSection = document.getElementById('games-section');
     if (gamesSection) {
       gamesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const getDifficultyVariant = (difficulty: string) => {
+    switch (difficulty) {
+      case '简单': return 'default';
+      case '中等': return 'secondary';
+      case '困难': return 'destructive';
+      default: return 'outline';
+    }
+  };
+
+  const getCategoryVariant = (category: string) => {
+    switch (category) {
+      case '冒险': return 'default';
+      case 'RPG': return 'secondary';
+      case '竞速': return 'outline';
+      case '策略': return 'default';
+      case '动作': return 'destructive';
+      default: return 'secondary';
     }
   };
 
@@ -92,21 +127,27 @@ const Home: React.FC = () => {
             
             {/* 特色介绍卡片 */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="text-4xl mb-4">😴</div>
-                <h3 className="text-xl font-semibold mb-2">告别无聊</h3>
-                <p className="text-gray-600">专为闲暇时光打造，再也不用发愁没事干</p>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="text-4xl mb-4">⚡</div>
-                <h3 className="text-xl font-semibold mb-2">即点即玩</h3>
-                <p className="text-gray-600">精选有趣内容，一键启动，让你快速找到乐趣</p>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="text-4xl mb-4">🎯</div>
-                <h3 className="text-xl font-semibold mb-2">私人定制</h3>
-                <p className="text-gray-600">根据个人喜好收集的游戏，专治选择困难症</p>
-              </div>
+              <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <CardContent className="pt-6">
+                  <div className="text-4xl mb-4 text-center">😴</div>
+                  <CardTitle className="text-xl mb-2 text-center">告别无聊</CardTitle>
+                  <CardDescription className="text-center">专为闲暇时光打造，再也不用发愁没事干</CardDescription>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <CardContent className="pt-6">
+                  <div className="text-4xl mb-4 text-center">⚡</div>
+                  <CardTitle className="text-xl mb-2 text-center">即点即玩</CardTitle>
+                  <CardDescription className="text-center">精选有趣内容，一键启动，让你快速找到乐趣</CardDescription>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <CardContent className="pt-6">
+                  <div className="text-4xl mb-4 text-center">🎯</div>
+                  <CardTitle className="text-xl mb-2 text-center">私人定制</CardTitle>
+                  <CardDescription className="text-center">根据个人喜好收集的游戏，专治选择困难症</CardDescription>
+                </CardContent>
+              </Card>
             </div>
 
             {/* 向下滚动按钮 */}
@@ -150,42 +191,58 @@ const Home: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {games.map((game) => (
-              <div 
-                key={game.id} 
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-              >
-                <div className="p-6">
-                  <div className="text-6xl text-center mb-4 group-hover:scale-110 transition-transform duration-300">
+              <Card key={game.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <CardHeader className="text-center">
+                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     {game.image}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                    {game.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-center leading-relaxed">
+                  <CardTitle className="text-2xl">{game.title}</CardTitle>
+                  <CardDescription className="text-base leading-relaxed">
                     {game.description}
-                  </p>
-                  <div className="space-y-2 mb-6">
-                    <div className="flex justify-between">
-                      <span className="text-sm font-medium text-gray-500">类型:</span>
-                      <span className="text-sm text-gray-700">{game.category}</span>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {/* 游戏标签 */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <Badge variant={getCategoryVariant(game.category)}>
+                      {game.category}
+                    </Badge>
+                    <Badge variant={getDifficultyVariant(game.difficulty)}>
+                      {game.difficulty}
+                    </Badge>
+                  </div>
+                  
+                  {/* 游戏信息 */}
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-1">
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">玩家:</span>
+                      </div>
+                      <span>{game.players}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm font-medium text-gray-500">玩家:</span>
-                      <span className="text-sm text-gray-700">{game.players}</span>
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">时长:</span>
+                      </div>
+                      <span>{game.duration}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm font-medium text-gray-500">难度:</span>
-                      <span className={`text-sm font-medium ${
-                        game.difficulty === '简单' ? 'text-green-600' :
-                        game.difficulty === '中等' ? 'text-yellow-600' : 'text-red-600'
-                      }`}>
-                        {game.difficulty}
-                      </span>
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">评分:</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="font-medium">{game.rating}</span>
+                      </div>
                     </div>
                   </div>
+                  
                   <GameButton gameId={game.id} />
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
