@@ -1,7 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleGamesClick = () => {
+    navigate('/');
+    setTimeout(() => {
+      const gamesSection = document.getElementById('games-section');
+      if (gamesSection) {
+        gamesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center">
       <div className="text-center">
@@ -19,12 +31,12 @@ const NotFound: React.FC = () => {
             返回首页
           </Link>
           <div className="mt-4">
-            <Link 
-              to="/games" 
+            <button 
+              onClick={handleGamesClick}
               className="inline-block text-blue-600 hover:text-blue-800 font-medium underline"
             >
               或者去看看我们的游戏
-            </Link>
+            </button>
           </div>
         </div>
       </div>
