@@ -1,37 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
-  createBrowserRouter,
   RouterProvider,
 } from "react-router";
 import "./index.css";
 
-// 导入页面组件
-import Root from "./root";
-import Home from "./pages/Home";
-import SchulteGrid from "./pages/SchulteGrid";
-import NotFound from "./pages/NotFound";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "game/schulte-grid",
-        element: <SchulteGrid />,
-      },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
+// 导入路由配置
+import { router } from "./routes";
 
 const root = document.getElementById("root");
 
