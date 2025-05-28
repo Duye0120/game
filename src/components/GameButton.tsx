@@ -2,14 +2,26 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Play, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface GameButtonProps {
   gameId: number;
 }
 
 const GameButton: React.FC<GameButtonProps> = ({ gameId }) => {
+  const navigate = useNavigate();
   const [isStarting, setIsStarting] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  // 游戏路由映射
+  const getGameRoute = (id: number): string => {
+    switch (id) {
+      case 1:
+        return '/game/schulte-grid';
+      default:
+        return '/';
+    }
+  };
 
   const handleStartGame = async () => {
     setIsStarting(true);
@@ -22,8 +34,9 @@ const GameButton: React.FC<GameButtonProps> = ({ gameId }) => {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
       
-      // 这里可以跳转到游戏页面或者执行其他操作
-      console.log(`启动游戏 ${gameId}`);
+      // 导航到游戏页面
+      const gameRoute = getGameRoute(gameId);
+      navigate(gameRoute);
       
     } catch (error) {
       console.error('启动游戏失败:', error);

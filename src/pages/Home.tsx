@@ -8,69 +8,14 @@ const Home: React.FC = () => {
   const games = [
     {
       id: 1,
-      title: "太空探险",
-      description: "在浩瀚宇宙中探索未知星球，体验刺激的太空冒险",
-      image: "🚀",
-      category: "冒险",
-      players: "1-4人",
-      difficulty: "中等",
-      rating: 4.8,
-      duration: "30-60分钟"
-    },
-    {
-      id: 2,
-      title: "魔法世界",
-      description: "使用神奇魔法，在奇幻世界中展开史诗般的冒险",
-      image: "🧙‍♂️",
-      category: "RPG",
+      title: "舒尔特方格",
+      description: "经典的注意力训练游戏，按数字顺序依次点击方格，提升专注力和视觉搜索能力",
+      image: "🎯",
+      category: "益智",
       players: "单人",
-      difficulty: "困难",
-      rating: 4.9,
-      duration: "60-120分钟"
-    },
-    {
-      id: 3,
-      title: "赛车竞速",
-      description: "驾驶超级跑车，在各种赛道上挑战速度极限",
-      image: "🏎️",
-      category: "竞速",
-      players: "1-8人",
       difficulty: "简单",
-      rating: 4.6,
-      duration: "15-30分钟"
-    },
-    {
-      id: 4,
-      title: "建造帝国",
-      description: "建设城市，管理资源，打造属于你的文明帝国",
-      image: "🏰",
-      category: "策略",
-      players: "1-6人",
-      difficulty: "中等",
-      rating: 4.7,
-      duration: "45-90分钟"
-    },
-    {
-      id: 5,
-      title: "海盗宝藏",
-      description: "成为海盗船长，寻找传说中的宝藏和失落的岛屿",
-      image: "🏴‍☠️",
-      category: "冒险",
-      players: "2-4人",
-      difficulty: "中等",
-      rating: 4.5,
-      duration: "30-45分钟"
-    },
-    {
-      id: 6,
-      title: "机器人大战",
-      description: "操控机甲战士，在未来战场上展开激烈的战斗",
-      image: "🤖",
-      category: "动作",
-      players: "1-2人",
-      difficulty: "困难",
-      rating: 4.4,
-      duration: "20-40分钟"
+      rating: 4.8,
+      duration: "2-5分钟"
     }
   ];
 
@@ -97,6 +42,7 @@ const Home: React.FC = () => {
       case '竞速': return 'outline';
       case '策略': return 'default';
       case '动作': return 'destructive';
+      case '益智': return 'default';
       default: return 'secondary';
     }
   };
