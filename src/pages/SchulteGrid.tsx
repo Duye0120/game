@@ -263,7 +263,15 @@ const SchulteGrid: React.FC = () => {
 
   // 获取方格样式
   const getCellStyle = (number: number) => {
-    const baseStyle = `w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-sm sm:text-base lg:text-lg font-bold rounded-lg border-2 transition-all duration-200 select-none game-grid-button`;
+    // 根据网格大小调整方格尺寸
+    const sizeClasses = {
+      3: 'w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 text-lg sm:text-xl lg:text-2xl',
+      5: 'w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-sm sm:text-base lg:text-lg',
+      9: 'w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-xs sm:text-sm lg:text-base'
+    };
+    
+    const sizeClass = sizeClasses[gameConfig.gridSize];
+    const baseStyle = `${sizeClass} font-bold rounded-lg border-2 transition-all duration-200 select-none game-grid-button`;
     
     if (!isGameStarted || isGameCompleted) {
       return `${baseStyle} cursor-not-allowed opacity-50 bg-white border-gray-300`;
@@ -506,12 +514,15 @@ const SchulteGrid: React.FC = () => {
                 ) : (
                   <>
                     {/* 游戏方格 */}
-                    <div className="flex justify-center items-center mb-6 w-full">
+                    <div className="flex justify-center items-center mb-6 w-full overflow-hidden">
                       <div 
-                        className="grid gap-1 sm:gap-2"
+                        className="grid gap-1 sm:gap-1.5 lg:gap-2"
                         style={{
                           gridTemplateColumns: `repeat(${gameConfig.gridSize}, 1fr)`,
-                          maxWidth: gameConfig.gridSize === 3 ? '200px' : gameConfig.gridSize === 5 ? '320px' : '480px'
+                          maxWidth: gameConfig.gridSize === 3 ? '300px' : 
+                                   gameConfig.gridSize === 5 ? '400px' : 
+                                   '500px', // 增加9×9的maxWidth
+                          width: '100%'
                         }}
                       >
                         {grid.map((number, index) => (
