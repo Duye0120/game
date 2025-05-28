@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, RotateCcw, Trophy, Timer, Target, Settings, Star, Award } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 // 游戏配置类型
 type GridSize = 3 | 5 | 9;
@@ -142,7 +142,7 @@ const SchulteGrid: React.FC = () => {
   };
 
   // 获取总数字数量
-  const getTotalNumbers = () => gameConfig.gridSize * gameConfig.gridSize;
+  const getTotalNumbers = useCallback(() => gameConfig.gridSize * gameConfig.gridSize, [gameConfig.gridSize]);
 
   // 生成随机排列的数字
   const generateGrid = useCallback(() => {
@@ -153,7 +153,7 @@ const SchulteGrid: React.FC = () => {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
     return numbers;
-  }, [gameConfig.gridSize]);
+  }, [getTotalNumbers]);
 
   // 初始化游戏
   const initializeGame = useCallback(() => {

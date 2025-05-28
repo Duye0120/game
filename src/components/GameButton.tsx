@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Play, Loader2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 interface GameButtonProps {
   gameId: number;

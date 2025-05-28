@@ -6,6 +6,6 @@
     }
   ],
   "buildCommand": "npm run build",
-  "outputDirectory": "build/client",
-  "framework": null
+  "outputDirectory": "dist",
+  "framework": "vite"
 }
