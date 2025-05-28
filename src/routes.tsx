@@ -6,6 +6,7 @@ import {
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import SchulteGrid from "./pages/SchulteGrid";
+import Snake3D from "./pages/Snake3D";
 import Root from "./root";
 
 export const router = createBrowserRouter([
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "game/schulte-grid",
         element: <SchulteGrid />,
+      },
+      {
+        path: "game/snake-3d",
+        element: <Snake3D />,
       },
       {
         path: "*",

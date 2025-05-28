@@ -24,4 +24,5 @@ build
 *.sln
 *.sw?
 .react-router/
+three-snake-live-main
 
