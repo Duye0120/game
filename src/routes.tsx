@@ -1,13 +1,12 @@
-import React from "react";
 import {
   createBrowserRouter,
 } from "react-router";
 
 // 导入页面组件
-import Root from "./root";
 import Home from "./pages/Home";
-import SchulteGrid from "./pages/SchulteGrid";
 import NotFound from "./pages/NotFound";
+import SchulteGrid from "./pages/SchulteGrid";
+import Root from "./root";
 
 export const router = createBrowserRouter([
   {
