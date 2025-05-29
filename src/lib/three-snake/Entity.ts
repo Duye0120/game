@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Position } from './types';
+import { resolution } from './Params';
 
 export default class Entity {
   mesh: THREE.Mesh;
@@ -17,13 +18,13 @@ export default class Entity {
   }
 
   getIndex() {
-    return this.position.y * 20 + this.position.x;
+    return this.position.y * resolution.x + this.position.x;
   }
 
   static indexToPosition(index: number): Position {
     return {
-      x: index % 20,
-      y: Math.floor(index / 20)
+      x: index % resolution.x,
+      y: Math.floor(index / resolution.x)
     };
   }
 } 

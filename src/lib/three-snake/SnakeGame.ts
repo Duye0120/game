@@ -77,7 +77,6 @@ export default class SnakeGame {
     this.setupLights();
     this.setupGround();
     this.setupGrid();
-    this.generateEntities();
     this.resetGame();
     this.setupEventListeners();
     this.animate();
@@ -388,15 +387,55 @@ export default class SnakeGame {
       gameOver: false
     };
 
-    // 创建新蛇
-    const palette = this.palettes[this.currentPalette];
-    this.snake = new Snake(this.scene, { x: 10, y: 10 }, palette.snakeColor, palette.mouthColor);
-
     // 重新生成实体
     this.generateEntities();
 
+    // 寻找一个安全的蛇起始位置
+    const safeStartPosition = this.findSafeStartPosition();
+
+    // 创建新蛇
+    const palette = this.palettes[this.currentPalette];
+    this.snake = new Snake(this.scene, safeStartPosition, palette.snakeColor, palette.mouthColor);
+
     // 添加糖果
     this.addCandy();
+  }
+
+  private findSafeStartPosition(): Position {
+    // 尝试从游戏区域中心附近找一个安全位置
+    const centerX = Math.floor(resolution.x / 2);
+    const centerY = Math.floor(resolution.y / 2);
+
+    // 优先尝试中心位置
+    const candidatePositions = [
+      { x: centerX, y: centerY },
+      { x: centerX - 1, y: centerY },
+      { x: centerX + 1, y: centerY },
+      { x: centerX, y: centerY - 1 },
+      { x: centerX, y: centerY + 1 },
+    ];
+
+    for (const position of candidatePositions) {
+      // 检查这个位置和蛇的初始身体位置(后面2格)是否安全
+      const bodyPositions = [
+        position,
+        { x: position.x - 1, y: position.y },
+        { x: position.x - 2, y: position.y }
+      ];
+
+      const isSafe = bodyPositions.every(pos =>
+        pos.x >= 0 && pos.x < resolution.x &&
+        pos.y >= 0 && pos.y < resolution.y &&
+        !this.isPositionOccupied(pos)
+      );
+
+      if (isSafe) {
+        return position;
+      }
+    }
+
+    // 如果中心区域都不安全，就使用默认安全位置
+    return { x: 3, y: 3 };
   }
 
   private gameOver() {

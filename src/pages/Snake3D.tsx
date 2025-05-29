@@ -58,6 +58,12 @@ const Snake3D: React.FC = () => {
 
   const handleStartGame = () => {
     if (gameRef.current) {
+      setGameState(prev => ({ 
+        ...prev, 
+        gameOver: false, 
+        isPlaying: false, 
+        isPaused: false 
+      }));
       gameRef.current.startGame();
     }
   };
@@ -70,6 +76,12 @@ const Snake3D: React.FC = () => {
 
   const handleResetGame = () => {
     if (gameRef.current) {
+      setGameState({
+        score: 0,
+        isPlaying: false,
+        isPaused: false,
+        gameOver: false
+      });
       gameRef.current.resetGame();
     }
   };
