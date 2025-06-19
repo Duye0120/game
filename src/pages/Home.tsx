@@ -1,62 +1,73 @@
-import React from 'react';
-import GameButton from '../components/GameButton';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Users, Star, Clock } from 'lucide-react';
+import { Clock, Star, Users } from 'lucide-react'
+import React from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import GameButton from '../components/GameButton'
 
 const Home: React.FC = () => {
   const games = [
     {
       id: 1,
-      title: "舒尔特方格",
-      description: "经典的注意力训练游戏，按数字顺序依次点击方格，提升专注力和视觉搜索能力",
-      image: "🎯",
-      category: "益智",
-      players: "单人",
-      difficulty: "简单",
+      title: '舒尔特方格',
+      description: '经典的注意力训练游戏，按数字顺序依次点击方格，提升专注力和视觉搜索能力',
+      image: '🎯',
+      category: '益智',
+      players: '单人',
+      difficulty: '简单',
       rating: 4.8,
-      duration: "2-5分钟"
+      duration: '2-5分钟',
     },
     {
       id: 2,
-      title: "3D贪吃蛇",
-      description: "经典贪吃蛇游戏的3D升级版！在立体空间中控制蛇吃食物，避开障碍物，体验全新的视觉盛宴",
-      image: "🐍",
-      category: "动作",
-      players: "单人",
-      difficulty: "中等",
+      title: '3D贪吃蛇',
+      description: '经典贪吃蛇游戏的3D升级版！在立体空间中控制蛇吃食物，避开障碍物，体验全新的视觉盛宴',
+      image: '🐍',
+      category: '动作',
+      players: '单人',
+      difficulty: '中等',
       rating: 4.9,
-      duration: "5-15分钟"
-    }
-  ];
+      duration: '5-15分钟',
+    },
+    {
+      id: 3,
+      title: 'idea',
+      description: '临时想法',
+      image: '📂',
+      category: '其他',
+      players: '单人',
+      difficulty: '简单',
+      rating: 4.5,
+      duration: '随时',
+    },
+  ]
 
   const scrollToGames = () => {
-    const gamesSection = document.getElementById('games-section');
+    const gamesSection = document.getElementById('games-section')
     if (gamesSection) {
-      gamesSection.scrollIntoView({ behavior: 'smooth' });
+      gamesSection.scrollIntoView({ behavior: 'smooth' })
     }
-  };
+  }
 
   const getDifficultyVariant = (difficulty: string) => {
     switch (difficulty) {
-      case '简单': return 'default';
-      case '中等': return 'secondary';
-      case '困难': return 'destructive';
-      default: return 'outline';
+      case '简单': return 'default'
+      case '中等': return 'secondary'
+      case '困难': return 'destructive'
+      default: return 'outline'
     }
-  };
+  }
 
   const getCategoryVariant = (category: string) => {
     switch (category) {
-      case '冒险': return 'default';
-      case 'RPG': return 'secondary';
-      case '竞速': return 'outline';
-      case '策略': return 'default';
-      case '动作': return 'destructive';
-      case '益智': return 'default';
-      default: return 'secondary';
+      case '冒险': return 'default'
+      case 'RPG': return 'secondary'
+      case '竞速': return 'outline'
+      case '策略': return 'default'
+      case '动作': return 'destructive'
+      case '益智': return 'default'
+      default: return 'secondary'
     }
-  };
+  }
 
   return (
     <div className="min-h-screen">
@@ -68,7 +79,7 @@ const Home: React.FC = () => {
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
           <div className="absolute top-40 left-40 w-80 h-80 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-8 leading-tight">
@@ -81,7 +92,7 @@ const Home: React.FC = () => {
               探索精彩的游戏体验，发现无限可能。在这里，每一个游戏都是一次全新的冒险，
               每一次点击都将开启属于您的游戏传奇！
             </p>
-            
+
             {/* 特色介绍卡片 */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
               <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
@@ -108,15 +119,15 @@ const Home: React.FC = () => {
             </div>
 
             {/* 向下滚动按钮 */}
-            <button 
+            <button
               onClick={scrollToGames}
               className="group bg-white/20 backdrop-blur-sm border border-white/30 text-gray-800 px-8 py-4 rounded-full hover:bg-white/30 transition-all duration-300 inline-flex items-center"
             >
               <span className="mr-3">开始探索游戏</span>
-              <svg 
-                className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -124,7 +135,7 @@ const Home: React.FC = () => {
             </button>
           </div>
         </div>
-        
+
         {/* 向下箭头指示器 */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,9 +156,9 @@ const Home: React.FC = () => {
               从经典怀旧到创新前沿，总有一款游戏适合您的品味。
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {games.map((game) => (
+            {games.map(game => (
               <Card key={game.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardHeader className="text-center">
                   <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -168,7 +179,7 @@ const Home: React.FC = () => {
                       {game.difficulty}
                     </Badge>
                   </div>
-                  
+
                   {/* 游戏信息 */}
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center justify-between text-sm">
@@ -196,7 +207,7 @@ const Home: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <GameButton gameId={game.id} />
                 </CardContent>
               </Card>
@@ -205,7 +216,7 @@ const Home: React.FC = () => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Home; 
+export default Home

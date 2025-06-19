@@ -137,6 +137,85 @@ const Snake3D: React.FC = () => {
           {/* 左侧控制区域 */}
           <div className="absolute left-4 top-4 pointer-events-auto z-50">
             <div className="flex flex-col space-y-3">
+              {/* 裁剪面实验按钮 */}
+              <div className="flex flex-col space-y-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm text-xs"
+                  title="测试裁剪面"
+                  onClick={() => {
+                    if (gameRef.current && typeof gameRef.current.testClipping === 'function') {
+                      gameRef.current.testClipping();
+                    } else {
+                      console.log('❌ 方法不存在');
+                      console.log('🔍 gameRef.current 方法列表:', Object.getOwnPropertyNames(Object.getPrototypeOf(gameRef.current || {})));
+                    }
+                  }}
+                >
+                  测试
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm text-xs"
+                  title="重置摄像机"
+                  onClick={() => {
+                    if (gameRef.current && typeof gameRef.current.resetCamera === 'function') {
+                      gameRef.current.resetCamera();
+                    } else {
+                      console.log('❌ resetCamera方法不存在');
+                    }
+                  }}
+                >
+                  重置
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm text-xs"
+                  title="更近视角"
+                  onClick={() => {
+                    gameRef.current?.adjustCameraHeight(10);
+                  }}
+                >
+                  更近
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm text-xs"
+                  title="更远视角"
+                  onClick={() => {
+                    gameRef.current?.adjustCameraHeight(20);
+                  }}
+                >
+                  更远
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm text-xs"
+                  title="缩放+"
+                  onClick={() => {
+                    gameRef.current?.adjustFOV(30);
+                  }}
+                >
+                  放大
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm text-xs"
+                  title="缩放-"
+                  onClick={() => {
+                    gameRef.current?.adjustFOV(60);
+                  }}
+                >
+                  缩小
+                </Button>
+              </div>
+              
               {/* 相机控制按钮 */}
               <Button
                 variant="outline"
