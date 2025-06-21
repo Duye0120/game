@@ -2,8 +2,8 @@ import {
   createBrowserRouter,
 } from 'react-router'
 
-import FileIdea from './pages/FileIdea'
 // 导入页面组件
+import Folder from './pages/Folder'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import SchulteGrid from './pages/SchulteGrid'
@@ -28,8 +28,8 @@ export const router = createBrowserRouter([
         element: <Snake3D />,
       },
       {
-        path: 'file-idea',
-        element: <FileIdea />,
+        path: 'game/folder',
+        element: <Folder />,
       },
       {
         path: '*',
