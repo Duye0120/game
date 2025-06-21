@@ -9,4 +9,4 @@ export default class LinkedList<T> {
     this.head = node;
     return node;
   }
-} 
+}

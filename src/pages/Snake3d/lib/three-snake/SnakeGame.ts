@@ -1,6 +1,6 @@
+import type { GameEvent } from './types';
 import * as THREE from 'three';
 import { resolution } from './Params';
-import { GameEvent } from './types';
 
 export default class SnakeGame {
   private container: HTMLElement;
@@ -18,20 +18,20 @@ export default class SnakeGame {
     console.log('🎮 SnakeGame实例创建完成，包含方法：', Object.getOwnPropertyNames(Object.getPrototypeOf(this)));
   }
 
-  /** 
+  /**
    * 初始化整个3D场景
    */
   private init() {
     console.log('🎮 开始初始化3D贪吃蛇游戏...');
 
     // 按步骤初始化各个组件
-    this.setupScene();      // 1. 创建3D场景
-    this.setupCamera();     // 2. 设置摄像机
-    this.setupRenderer();   // 3. 设置渲染器
-    this.setupLights();     // 4. 添加光照
-    this.setupGround();     // 5. 创建地面
-    this.setupGrid();       // 6. 添加网格线
-    this.setupTestCubes();  // 7. 添加测试立方体
+    this.setupScene(); // 1. 创建3D场景
+    this.setupCamera(); // 2. 设置摄像机
+    this.setupRenderer(); // 3. 设置渲染器
+    this.setupLights(); // 4. 添加光照
+    this.setupGround(); // 5. 创建地面
+    this.setupGrid(); // 6. 添加网格线
+    this.setupTestCubes(); // 7. 添加测试立方体
 
     // 开始渲染循环
     this.animate();
@@ -49,8 +49,7 @@ export default class SnakeGame {
     this.scene = new THREE.Scene();
 
     // 设置场景背景色为橙黄色渐变
-    this.scene.background = new THREE.Color(0xff9800); // 橙色背景
-
+    this.scene.background = new THREE.Color(0xFF9800); // 橙色背景
   }
 
   /**
@@ -70,16 +69,16 @@ export default class SnakeGame {
     // 设置摄像机位置 - 调整为更好的游戏视角
     // resolution.x = 20, resolution.y = 20 (20x20的游戏网格)
     this.camera.position.set(
-      0,   // x: 水平居中
-      10,  // y: 降低高度，从20改为15
-      0  // z: 稍微向后，创造更好的俯视角度
+      0, // x: 水平居中
+      10, // y: 降低高度，从20改为15
+      0, // z: 稍微向后，创造更好的俯视角度
     );
 
     // 让摄像机看向游戏区域的中心
     this.camera.lookAt(
-      0,   // 看向网格中心的x
-      0,   // 看向地面
-      0   // 看向稍微前面一点，让棋盘在视野中心偏上
+      0, // 看向网格中心的x
+      0, // 看向地面
+      0, // 看向稍微前面一点，让棋盘在视野中心偏上
     );
 
     console.log(`📷 摄像机位置: (${this.camera.position.x}, ${this.camera.position.y}, ${this.camera.position.z})`);
@@ -116,19 +115,19 @@ export default class SnakeGame {
     console.log('💡 添加光照...');
 
     // 1. 环境光 - 提供整体的基础亮度
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // 白色，强度0.6
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.6); // 白色，强度0.6
     this.scene.add(ambientLight);
 
     // 2. 方向光 - 模拟太阳光，产生阴影
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8); // 白色，强度0.8
+    const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.8); // 白色，强度0.8
     directionalLight.position.set(10, 20, 10); // 光源位置
     directionalLight.castShadow = true; // 开启阴影投射
 
     // 设置阴影相关参数
-    directionalLight.shadow.mapSize.width = 2048;  // 阴影贴图宽度
+    directionalLight.shadow.mapSize.width = 2048; // 阴影贴图宽度
     directionalLight.shadow.mapSize.height = 2048; // 阴影贴图高度
-    directionalLight.shadow.camera.near = 0.5;     // 阴影相机近裁剪面
-    directionalLight.shadow.camera.far = 50;       // 阴影相机远裁剪面
+    directionalLight.shadow.camera.near = 0.5; // 阴影相机近裁剪面
+    directionalLight.shadow.camera.far = 50; // 阴影相机远裁剪面
 
     // 设置阴影相机的范围（需要覆盖整个游戏区域）
     directionalLight.shadow.camera.left = -15;
@@ -153,7 +152,7 @@ export default class SnakeGame {
 
     // 创建材质 - 橙色地面
     const planeMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffa726 // 橙色
+      color: 0xFFA726, // 橙色
     });
 
     // 创建地面网格对象
@@ -164,9 +163,9 @@ export default class SnakeGame {
 
     // 设置地面位置 - 居中在原点
     plane.position.set(
-      0,    // x: 原点居中
+      0, // x: 原点居中
       -0.5, // y: 稍微低于0（游戏物体会放在y=0上）
-      0     // z: 原点居中
+      0, // z: 原点居中
     );
 
     // 地面接收阴影
@@ -187,17 +186,17 @@ export default class SnakeGame {
 
     // 创建网格辅助对象
     const gridHelper = new THREE.GridHelper(
-      resolution.x,     // 网格总尺寸（x方向）
-      resolution.y,     // 网格总尺寸（z方向）
-      0xffffff,         // 中心线颜色（白色）
-      0xffffff          // 网格线颜色（白色）
+      resolution.x, // 网格总尺寸（x方向）
+      resolution.y, // 网格总尺寸（z方向）
+      0xFFFFFF, // 中心线颜色（白色）
+      0xFFFFFF, // 网格线颜色（白色）
     );
 
     // 设置网格位置 - 居中在原点，与地面对齐
     gridHelper.position.set(
-      0,     // x: 原点居中
+      0, // x: 原点居中
       -0.49, // y: 稍微高于地面
-      0      // z: 原点居中
+      0, // z: 原点居中
     );
 
     // 设置网格线透明度
@@ -222,28 +221,28 @@ export default class SnakeGame {
 
     // 测试立方体的距离数组
     const testDistances = [
-      { distance: 0.05, color: 0xff0000, label: '太近-被近裁剪面裁掉' },   // 红色 - 应该看不到
-      { distance: 0.2, color: 0x00ff00, label: '刚好可见' },              // 绿色 - 刚好能看到
-      { distance: 5, color: 0x0000ff, label: '正常距离' },                // 蓝色 - 正常可见
-      { distance: 50, color: 0xffff00, label: '较远距离' },               // 黄色 - 较远但可见
-      { distance: 500, color: 0xff00ff, label: '很远距离' },              // 紫色 - 很远但还能看到
-      { distance: 1500, color: 0x00ffff, label: '超远-被远裁剪面裁掉' }    // 青色 - 应该看不到
+      { distance: 0.05, color: 0xFF0000, label: '太近-被近裁剪面裁掉' }, // 红色 - 应该看不到
+      { distance: 0.2, color: 0x00FF00, label: '刚好可见' }, // 绿色 - 刚好能看到
+      { distance: 5, color: 0x0000FF, label: '正常距离' }, // 蓝色 - 正常可见
+      { distance: 50, color: 0xFFFF00, label: '较远距离' }, // 黄色 - 较远但可见
+      { distance: 500, color: 0xFF00FF, label: '很远距离' }, // 紫色 - 很远但还能看到
+      { distance: 1500, color: 0x00FFFF, label: '超远-被远裁剪面裁掉' }, // 青色 - 应该看不到
     ];
 
     testDistances.forEach((test, index) => {
       const material = new THREE.MeshStandardMaterial({
         color: test.color,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.8,
       });
 
       const cube = new THREE.Mesh(geometry, material);
 
       // 将测试立方体放置在网格内的不同位置
       cube.position.set(
-        (index * 2 - 5),        // x: 在网格内横向分布 (-5, -3, -1, 1, 3, 5)
-        0.5,                    // y: 在地面上
-        (index % 2) * 2 - 1     // z: 交错放置在前后两排
+        (index * 2 - 5), // x: 在网格内横向分布 (-5, -3, -1, 1, 3, 5)
+        0.5, // y: 在地面上
+        (index % 2) * 2 - 1, // z: 交错放置在前后两排
       );
 
       cube.castShadow = true;
@@ -278,17 +277,17 @@ export default class SnakeGame {
     // 定义不同的色彩主题
     const palettes = {
       green: {
-        background: 0x4caf50,   // 绿色背景
-        ground: 0x7cb342        // 绿色地面
+        background: 0x4CAF50, // 绿色背景
+        ground: 0x7CB342, // 绿色地面
       },
       orange: {
-        background: 0xff9800,   // 橙色背景
-        ground: 0xffa726        // 橙色地面
+        background: 0xFF9800, // 橙色背景
+        ground: 0xFFA726, // 橙色地面
       },
       lilac: {
-        background: 0x9c27b0,   // 紫色背景
-        ground: 0xba68c8        // 紫色地面
-      }
+        background: 0x9C27B0, // 紫色背景
+        ground: 0xBA68C8, // 紫色地面
+      },
     };
 
     const palette = palettes[paletteName as keyof typeof palettes];
@@ -298,7 +297,7 @@ export default class SnakeGame {
       this.scene.fog = new THREE.Fog(palette.background, 5, 40);
 
       // 更新地面颜色（需要找到地面对象）
-      this.scene.traverse((object) => {
+      this.scene.traverse(object => {
         if (object instanceof THREE.Mesh && object.geometry instanceof THREE.PlaneGeometry) {
           (object.material as THREE.MeshStandardMaterial).color.setHex(palette.ground);
         }
@@ -343,13 +342,13 @@ export default class SnakeGame {
   }
 
   /**
- * 重置摄像机位置 - 垂直俯视
- */
+   * 重置摄像机位置 - 垂直俯视
+   */
   public resetCamera() {
     console.log('🔄 重置摄像机到垂直俯视位置');
 
-    this.camera.position.set(0, 20, 0);  // 网格中心正上方，高度20
-    this.camera.lookAt(0, 0, 0);         // 看向网格中心
+    this.camera.position.set(0, 20, 0); // 网格中心正上方，高度20
+    this.camera.lookAt(0, 0, 0); // 看向网格中心
     this.camera.near = 0.1;
     this.camera.far = 1000;
     this.camera.updateProjectionMatrix();
@@ -358,13 +357,13 @@ export default class SnakeGame {
   }
 
   /**
- * 调整摄像机高度 - 保持垂直俯视
- */
+   * 调整摄像机高度 - 保持垂直俯视
+   */
   public adjustCameraHeight(height: number) {
     console.log(`📏 调整摄像机高度到: ${height}`);
 
-    this.camera.position.set(0, height, 0);  // 保持在原点正上方
-    this.camera.lookAt(0, 0, 0);             // 始终看向原点
+    this.camera.position.set(0, height, 0); // 保持在原点正上方
+    this.camera.lookAt(0, 0, 0); // 始终看向原点
 
     console.log(`✅ 摄像机高度已调整为: ${height}，保持垂直俯视`);
   }
@@ -419,4 +418,4 @@ export default class SnakeGame {
 
     console.log('✅ 游戏资源清理完成');
   }
-} 
+}

@@ -5,4 +5,4 @@ export default class ListNode<T> {
   constructor(data: T) {
     this.data = data;
   }
-} 
+}

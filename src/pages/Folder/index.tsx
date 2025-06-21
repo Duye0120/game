@@ -1,12 +1,12 @@
-import { motion, type Variants } from 'framer-motion'
-import React, { useState } from 'react'
-import styles from './index.module.scss'
+import { motion, type Variants } from 'framer-motion';
+import React, { useState } from 'react';
+import styles from './index.module.scss';
 
 interface FileItem {
-  id: number
-  name: string
-  content: string
-  date: string
+  id: number;
+  name: string;
+  content: string;
+  date: string;
 }
 
 const cardVariants: Variants = {
@@ -22,7 +22,7 @@ const cardVariants: Variants = {
       duration: 0.8,
     },
   },
-}
+};
 
 const FileIdea: React.FC = () => {
   // 模拟文件数据（你的30个日志文件）
@@ -31,10 +31,10 @@ const FileIdea: React.FC = () => {
     name: `日志_${String(i + 1).padStart(2, '0')}.md`,
     content: `这是第${i + 1}天的日志内容。今天学习了很多新知识，记录了一些重要的想法和进展。包含了关于技术学习、项目进展、个人思考和日常记录等多个方面的详细内容。记录了学习进度、遇到的问题、解决方案以及个人的思考和总结。`,
     date: `2024-01-${String(i + 1).padStart(2, '0')}`,
-  }))
+  }));
 
-  const [activeFileId, setActiveFileId] = useState<number>(files[0].id)
-  const activeFile = files.find(file => file.id === activeFileId) || files[0]
+  const [activeFileId, setActiveFileId] = useState<number>(files[0].id);
+  const activeFile = files.find(file => file.id === activeFileId) || files[0];
 
   return (
     <div className={styles.fileIdeaScrollContainer}>
@@ -93,20 +93,20 @@ const FileIdea: React.FC = () => {
         </motion.div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface FileCardProps {
-  file: FileItem
-  index: number
-  onInView: () => void
+  file: FileItem;
+  index: number;
+  onInView: () => void;
 }
 
 function FileCard({ file, index, onInView }: FileCardProps) {
   // 为每个文件生成不同的颜色
-  const hueA = (index * 360 / 30) % 360
-  const hueB = ((index * 360 / 30) + 40) % 360
-  const background = `linear-gradient(306deg, hsl(${hueA}, 70%, 50%), hsl(${hueB}, 70%, 50%))`
+  const hueA = (index * 360 / 30) % 360;
+  const hueB = ((index * 360 / 30) + 40) % 360;
+  const background = `linear-gradient(306deg, hsl(${hueA}, 70%, 50%), hsl(${hueB}, 70%, 50%))`;
 
   return (
     <motion.div
@@ -131,7 +131,7 @@ function FileCard({ file, index, onInView }: FileCardProps) {
         </div>
       </motion.div>
     </motion.div>
-  )
+  );
 }
 
-export default FileIdea
+export default FileIdea;

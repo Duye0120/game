@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { Gamepad2, Home, Menu } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
-import { Menu, Home, Gamepad2 } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,30 +23,33 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const gamesSection = document.getElementById('games-section');
-      
+
       if (gamesSection) {
         const gamesSectionTop = gamesSection.offsetTop - 100; // 提前100px开始检测
         const gamesSectionBottom = gamesSection.offsetTop + gamesSection.offsetHeight;
         const isInGamesSection = currentScrollY >= gamesSectionTop && currentScrollY <= gamesSectionBottom;
-        
+
         if (isInGamesSection) {
           // 在游戏区域内，根据滚动方向决定是否显示导航栏
           if (currentScrollY > lastScrollY) {
             // 向下滚动，隐藏导航栏
             setIsNavVisible(false);
-          } else {
+          }
+          else {
             // 向上滚动，显示导航栏
             setIsNavVisible(true);
           }
-        } else {
+        }
+        else {
           // 不在游戏区域，始终显示导航栏
           setIsNavVisible(true);
         }
-      } else {
+      }
+      else {
         // 如果不在首页或找不到游戏区域，始终显示导航栏
         setIsNavVisible(true);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
@@ -54,7 +57,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     if (location.pathname === '/' && !isSnakeGamePage) {
       window.addEventListener('scroll', handleScroll, { passive: true });
       return () => window.removeEventListener('scroll', handleScroll);
-    } else {
+    }
+    else {
       // 非首页始终显示导航栏（除了贪吃蛇游戏页面）
       setIsNavVisible(!isSnakeGamePage);
     }
@@ -63,14 +67,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const handleGamesClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsMobileMenuOpen(false); // 关闭移动端菜单
-    
+
     if (location.pathname === '/') {
       // 如果在首页，直接滚动到游戏区域
       const gamesSection = document.getElementById('games-section');
       if (gamesSection) {
         gamesSection.scrollIntoView({ behavior: 'smooth' });
       }
-    } else {
+    }
+    else {
       // 如果不在首页，先跳转到首页然后滚动到游戏区域
       navigate('/');
       setTimeout(() => {
@@ -106,7 +111,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {!isSnakeGamePage && (
         <nav className={`bg-white shadow-lg sticky top-0 z-50 transition-transform duration-300 ease-in-out ${
           isNavVisible ? 'translate-y-0' : '-translate-y-full'
-        }`}>
+        }`}
+        >
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center h-16">
               {/* Logo */}
@@ -117,10 +123,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
               {/* 桌面端导航链接 */}
               <div className="hidden md:flex space-x-2">
-                {navigation.map((item) => (
+                {navigation.map(item => (
                   <Button
                     key={item.name}
-                    variant={isActive(item.href) ? "default" : "ghost"}
+                    variant={isActive(item.href) ? 'default' : 'ghost'}
                     onClick={item.onClick}
                     className="flex items-center gap-2"
                   >
@@ -148,10 +154,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     </SheetHeader>
                     <Separator className="my-4" />
                     <div className="flex flex-col space-y-3">
-                      {navigation.map((item) => (
+                      {navigation.map(item => (
                         <Button
                           key={item.name}
-                          variant={isActive(item.href) ? "default" : "ghost"}
+                          variant={isActive(item.href) ? 'default' : 'ghost'}
                           onClick={item.onClick}
                           className="justify-start gap-2"
                         >
@@ -169,7 +175,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       )}
 
       {/* 主要内容区域 */}
-      <main className={isSnakeGamePage ? "h-screen" : "flex-1"}>
+      <main className={isSnakeGamePage ? 'h-screen' : 'flex-1'}>
         {children}
       </main>
 
@@ -207,7 +213,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </a>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-4">快速链接</h3>
                 <ul className="space-y-2">
@@ -217,7 +223,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <li><a href="#" className="text-gray-300 hover:text-white transition-colors">联系客服</a></li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-4">游戏分类</h3>
                 <ul className="space-y-2">
@@ -228,9 +234,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </ul>
               </div>
             </div>
-            
+
             <Separator className="my-8 bg-gray-600" />
-            
+
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-300 text-sm">
                 © 2024 游戏世界. 保留所有权利.

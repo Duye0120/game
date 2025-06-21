@@ -1,117 +1,117 @@
-import { ArrowLeft, Award, RotateCcw, Settings, Star, Target, Timer, Trophy } from 'lucide-react'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { ArrowLeft, Award, RotateCcw, Settings, Star, Target, Timer, Trophy } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // 游戏配置类型
-type GridSize = 3 | 5 | 9
-type Difficulty = 'easy' | 'normal' | 'hard'
+type GridSize = 3 | 5 | 9;
+type Difficulty = 'easy' | 'normal' | 'hard';
 
 interface GameConfig {
-  gridSize: GridSize
-  difficulty: Difficulty
+  gridSize: GridSize;
+  difficulty: Difficulty;
 }
 
 // 游戏记录类型
 interface GameRecord {
-  gridSize: GridSize
-  difficulty: Difficulty
-  time: number
-  mistakes: number
-  date: string
-  score: number // 综合评分
+  gridSize: GridSize;
+  difficulty: Difficulty;
+  time: number;
+  mistakes: number;
+  date: string;
+  score: number; // 综合评分
 }
 
 // 最高记录类型
 interface BestRecords {
-  [key: string]: GameRecord // key 格式: "gridSize-difficulty"
+  [key: string]: GameRecord; // key 格式: "gridSize-difficulty"
 }
 
 const SchulteGrid: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // 游戏配置状态
   const [gameConfig, setGameConfig] = useState<GameConfig>({
     gridSize: 5,
     difficulty: 'easy',
-  })
+  });
 
   // 游戏状态
-  const [grid, setGrid] = useState<number[]>([])
-  const [currentNumber, setCurrentNumber] = useState(1)
-  const [startTime, setStartTime] = useState<number | null>(null)
-  const [endTime, setEndTime] = useState<number | null>(null)
-  const [isGameStarted, setIsGameStarted] = useState(false)
-  const [isGameCompleted, setIsGameCompleted] = useState(false)
-  const [clickedNumbers, setClickedNumbers] = useState<Set<number>>(new Set())
-  const [mistakes, setMistakes] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [showSettings, setShowSettings] = useState(true)
+  const [grid, setGrid] = useState<number[]>([]);
+  const [currentNumber, setCurrentNumber] = useState(1);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [endTime, setEndTime] = useState<number | null>(null);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isGameCompleted, setIsGameCompleted] = useState(false);
+  const [clickedNumbers, setClickedNumbers] = useState<Set<number>>(new Set());
+  const [mistakes, setMistakes] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [showSettings, setShowSettings] = useState(true);
 
   // 记录相关状态
-  const [bestRecords, setBestRecords] = useState<BestRecords>({})
-  const [isNewRecord, setIsNewRecord] = useState(false)
+  const [bestRecords, setBestRecords] = useState<BestRecords>({});
+  const [isNewRecord, setIsNewRecord] = useState(false);
 
   // 本地存储key
-  const STORAGE_KEY = 'schulte-grid-records'
+  const STORAGE_KEY = 'schulte-grid-records';
 
   // 加载本地记录
   const loadBestRecords = useCallback(() => {
     try {
-      const savedRecords = localStorage.getItem(STORAGE_KEY)
+      const savedRecords = localStorage.getItem(STORAGE_KEY);
       if (savedRecords) {
-        const records = JSON.parse(savedRecords) as BestRecords
-        setBestRecords(records)
+        const records = JSON.parse(savedRecords) as BestRecords;
+        setBestRecords(records);
       }
     }
     catch (error) {
-      console.error('加载记录失败:', error)
+      console.error('加载记录失败:', error);
     }
-  }, [])
+  }, []);
 
   // 保存记录到本地存储
   const saveBestRecords = useCallback((records: BestRecords) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(records))
-      setBestRecords(records)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      setBestRecords(records);
     }
     catch (error) {
-      console.error('保存记录失败:', error)
+      console.error('保存记录失败:', error);
     }
-  }, [])
+  }, []);
 
   // 计算游戏得分 (时间越短、错误越少得分越高)
   const calculateScore = (time: number, mistakes: number, gridSize: GridSize) => {
-    const baseScore = 10000
-    const timePenalty = time * (gridSize * 2) // 根据网格大小调整时间惩罚
-    const mistakePenalty = mistakes * 100
-    return Math.max(baseScore - timePenalty - mistakePenalty, 0)
-  }
+    const baseScore = 10000;
+    const timePenalty = time * (gridSize * 2); // 根据网格大小调整时间惩罚
+    const mistakePenalty = mistakes * 100;
+    return Math.max(baseScore - timePenalty - mistakePenalty, 0);
+  };
 
   // 获取记录键
   const getRecordKey = (gridSize: GridSize, difficulty: Difficulty) => {
-    return `${gridSize}-${difficulty}`
-  }
+    return `${gridSize}-${difficulty}`;
+  };
 
   // 检查并更新最高记录
   const checkAndUpdateRecord = useCallback((time: number, mistakes: number) => {
-    const recordKey = getRecordKey(gameConfig.gridSize, gameConfig.difficulty)
-    const currentRecord = bestRecords[recordKey]
-    const score = calculateScore(time, mistakes, gameConfig.gridSize)
+    const recordKey = getRecordKey(gameConfig.gridSize, gameConfig.difficulty);
+    const currentRecord = bestRecords[recordKey];
+    const score = calculateScore(time, mistakes, gameConfig.gridSize);
 
-    let shouldUpdate = false
+    let shouldUpdate = false;
 
     if (!currentRecord) {
       // 没有记录，直接保存
-      shouldUpdate = true
+      shouldUpdate = true;
     }
     else {
       // 比较得分，得分更高则更新记录
       if (score > currentRecord.score) {
-        shouldUpdate = true
+        shouldUpdate = true;
       }
     }
 
@@ -123,138 +123,138 @@ const SchulteGrid: React.FC = () => {
         mistakes,
         date: new Date().toLocaleDateString('zh-CN'),
         score,
-      }
+      };
 
       const updatedRecords = {
         ...bestRecords,
         [recordKey]: newRecord,
-      }
+      };
 
-      saveBestRecords(updatedRecords)
-      setIsNewRecord(true)
-      return true
+      saveBestRecords(updatedRecords);
+      setIsNewRecord(true);
+      return true;
     }
 
-    return false
-  }, [bestRecords, gameConfig, saveBestRecords])
+    return false;
+  }, [bestRecords, gameConfig, saveBestRecords]);
 
   // 获取当前配置的最高记录
   const getCurrentBestRecord = () => {
-    const recordKey = getRecordKey(gameConfig.gridSize, gameConfig.difficulty)
-    return bestRecords[recordKey]
-  }
+    const recordKey = getRecordKey(gameConfig.gridSize, gameConfig.difficulty);
+    return bestRecords[recordKey];
+  };
 
   // 获取总数字数量
-  const getTotalNumbers = useCallback(() => gameConfig.gridSize * gameConfig.gridSize, [gameConfig.gridSize])
+  const getTotalNumbers = useCallback(() => gameConfig.gridSize * gameConfig.gridSize, [gameConfig.gridSize]);
 
   // 生成随机排列的数字
   const generateGrid = useCallback(() => {
-    const totalNumbers = getTotalNumbers()
-    const numbers = Array.from({ length: totalNumbers }, (_, i) => i + 1)
+    const totalNumbers = getTotalNumbers();
+    const numbers = Array.from({ length: totalNumbers }, (_, i) => i + 1);
     for (let i = numbers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]]
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
-    return numbers
-  }, [getTotalNumbers])
+    return numbers;
+  }, [getTotalNumbers]);
 
   // 初始化游戏
   const initializeGame = useCallback(() => {
-    setGrid(generateGrid())
-    setCurrentNumber(1)
-    setStartTime(null)
-    setEndTime(null)
-    setIsGameStarted(false)
-    setIsGameCompleted(false)
-    setClickedNumbers(new Set())
-    setMistakes(0)
-    setCurrentTime(0)
-    setShowSettings(true)
-  }, [generateGrid])
+    setGrid(generateGrid());
+    setCurrentNumber(1);
+    setStartTime(null);
+    setEndTime(null);
+    setIsGameStarted(false);
+    setIsGameCompleted(false);
+    setClickedNumbers(new Set());
+    setMistakes(0);
+    setCurrentTime(0);
+    setShowSettings(true);
+  }, [generateGrid]);
 
   // 开始游戏
   const startGame = () => {
-    setStartTime(Date.now())
-    setIsGameStarted(true)
-    setCurrentTime(0)
-    setShowSettings(false)
-  }
+    setStartTime(Date.now());
+    setIsGameStarted(true);
+    setCurrentTime(0);
+    setShowSettings(false);
+  };
 
   // 处理方格点击
   const handleCellClick = (number: number) => {
     if (!isGameStarted || isGameCompleted)
-      return
+      return;
 
     if (number === currentNumber) {
       // 正确点击
-      setClickedNumbers(prev => new Set([...prev, number]))
+      setClickedNumbers(prev => new Set([...prev, number]));
 
       if (number === getTotalNumbers()) {
         // 游戏完成
-        const completionTime = Date.now()
-        setEndTime(completionTime)
-        setIsGameCompleted(true)
+        const completionTime = Date.now();
+        setEndTime(completionTime);
+        setIsGameCompleted(true);
 
         // 检查并更新记录
-        const gameTime = Math.round((completionTime - (startTime || 0)) / 1000)
-        checkAndUpdateRecord(gameTime, mistakes)
+        const gameTime = Math.round((completionTime - (startTime || 0)) / 1000);
+        checkAndUpdateRecord(gameTime, mistakes);
       }
       else {
-        setCurrentNumber(prev => prev + 1)
+        setCurrentNumber(prev => prev + 1);
       }
     }
     else {
       // 错误点击
-      setMistakes(prev => prev + 1)
+      setMistakes(prev => prev + 1);
     }
-  }
+  };
 
   // 重新开始游戏
   const restartGame = () => {
-    initializeGame()
-    setIsNewRecord(false)
-  }
+    initializeGame();
+    setIsNewRecord(false);
+  };
 
   // 返回首页
   const goBack = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   // 计算游戏时间
   const getGameTime = () => {
     if (!startTime)
-      return 0
+      return 0;
     if (endTime) {
       // 游戏已结束，返回最终时间
-      return Math.round((endTime - startTime) / 1000)
+      return Math.round((endTime - startTime) / 1000);
     }
     // 游戏进行中，返回当前时间
-    return currentTime
-  }
+    return currentTime;
+  };
 
   // 获取成绩评价
   const getPerformanceRating = () => {
-    const time = getGameTime()
-    const totalNumbers = getTotalNumbers()
-    const errorRate = mistakes / totalNumbers
+    const time = getGameTime();
+    const totalNumbers = getTotalNumbers();
+    const errorRate = mistakes / totalNumbers;
 
     // 根据网格大小调整评分标准
     const timeThresholds = {
       3: { excellent: 15, good: 25, average: 40 },
       5: { excellent: 30, good: 45, average: 60 },
       9: { excellent: 120, good: 180, average: 240 },
-    }
+    };
 
-    const thresholds = timeThresholds[gameConfig.gridSize]
+    const thresholds = timeThresholds[gameConfig.gridSize];
 
     if (time <= thresholds.excellent && errorRate <= 0.1)
-      return { text: '优秀', color: 'text-green-600', variant: 'default' as const }
+      return { text: '优秀', color: 'text-green-600', variant: 'default' as const };
     if (time <= thresholds.good && errorRate <= 0.2)
-      return { text: '良好', color: 'text-blue-600', variant: 'secondary' as const }
+      return { text: '良好', color: 'text-blue-600', variant: 'secondary' as const };
     if (time <= thresholds.average && errorRate <= 0.3)
-      return { text: '一般', color: 'text-yellow-600', variant: 'outline' as const }
-    return { text: '需要练习', color: 'text-red-600', variant: 'destructive' as const }
-  }
+      return { text: '一般', color: 'text-yellow-600', variant: 'outline' as const };
+    return { text: '需要练习', color: 'text-red-600', variant: 'destructive' as const };
+  };
 
   // 获取难度名称
   const getDifficultyName = (difficulty: Difficulty) => {
@@ -262,14 +262,14 @@ const SchulteGrid: React.FC = () => {
       easy: '简单',
       normal: '普通',
       hard: '困难',
-    }
-    return difficultyNames[difficulty]
-  }
+    };
+    return difficultyNames[difficulty];
+  };
 
   // 获取网格大小名称
   const getGridSizeName = (size: GridSize) => {
-    return `${size}×${size}`
-  }
+    return `${size}×${size}`;
+  };
 
   // 获取方格样式
   const getCellStyle = (number: number) => {
@@ -278,13 +278,13 @@ const SchulteGrid: React.FC = () => {
       3: 'w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 text-lg sm:text-xl lg:text-2xl',
       5: 'w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-sm sm:text-base lg:text-lg',
       9: 'w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-xs sm:text-sm lg:text-base',
-    }
+    };
 
-    const sizeClass = sizeClasses[gameConfig.gridSize]
-    const baseStyle = `${sizeClass} font-bold rounded-lg border-2 transition-all duration-200 select-none game-grid-button`
+    const sizeClass = sizeClasses[gameConfig.gridSize];
+    const baseStyle = `${sizeClass} font-bold rounded-lg border-2 transition-all duration-200 select-none game-grid-button`;
 
     if (!isGameStarted || isGameCompleted) {
-      return `${baseStyle} cursor-not-allowed opacity-50 bg-white border-gray-300`
+      return `${baseStyle} cursor-not-allowed opacity-50 bg-white border-gray-300`;
     }
 
     // 根据难度级别决定样式
@@ -292,78 +292,78 @@ const SchulteGrid: React.FC = () => {
       case 'easy':
         // 简单模式：有提示
         if (clickedNumbers.has(number)) {
-          return `${baseStyle} bg-green-500 text-white border-green-600 scale-95 cursor-pointer`
+          return `${baseStyle} bg-green-500 text-white border-green-600 scale-95 cursor-pointer`;
         }
         else if (number === currentNumber) {
-          return `${baseStyle} bg-blue-100 border-blue-400 hover:bg-blue-200 cursor-pointer hover:scale-105`
+          return `${baseStyle} bg-blue-100 border-blue-400 hover:bg-blue-200 cursor-pointer hover:scale-105`;
         }
         else {
-          return `${baseStyle} bg-white border-gray-300 hover:bg-gray-50 cursor-pointer hover:scale-105`
+          return `${baseStyle} bg-white border-gray-300 hover:bg-gray-50 cursor-pointer hover:scale-105`;
         }
 
       case 'normal':
         // 普通模式：点击后改变颜色，但无当前目标提示
         if (clickedNumbers.has(number)) {
-          return `${baseStyle} bg-green-500 text-white border-green-600 scale-95 cursor-pointer`
+          return `${baseStyle} bg-green-500 text-white border-green-600 scale-95 cursor-pointer`;
         }
         else {
-          return `${baseStyle} bg-white border-gray-300 hover:bg-gray-50 cursor-pointer hover:scale-105`
+          return `${baseStyle} bg-white border-gray-300 hover:bg-gray-50 cursor-pointer hover:scale-105`;
         }
 
       case 'hard':
         // 困难模式：点击后颜色不变
-        return `${baseStyle} bg-white border-gray-300 hover:bg-gray-50 cursor-pointer hover:scale-105`
+        return `${baseStyle} bg-white border-gray-300 hover:bg-gray-50 cursor-pointer hover:scale-105`;
 
       default:
-        return `${baseStyle} bg-white border-gray-300 cursor-pointer`
+        return `${baseStyle} bg-white border-gray-300 cursor-pointer`;
     }
-  }
+  };
 
   // 处理网格大小变更
   const handleGridSizeChange = (value: string) => {
-    const gridSize = Number.parseInt(value) as GridSize
-    setGameConfig(prev => ({ ...prev, gridSize }))
-    setIsNewRecord(false) // 重置新记录状态
-  }
+    const gridSize = Number.parseInt(value) as GridSize;
+    setGameConfig(prev => ({ ...prev, gridSize }));
+    setIsNewRecord(false); // 重置新记录状态
+  };
 
   // 处理难度变更
   const handleDifficultyChange = (value: string) => {
-    const difficulty = value as Difficulty
-    setGameConfig(prev => ({ ...prev, difficulty }))
-    setIsNewRecord(false) // 重置新记录状态
-  }
+    const difficulty = value as Difficulty;
+    setGameConfig(prev => ({ ...prev, difficulty }));
+    setIsNewRecord(false); // 重置新记录状态
+  };
 
   // 实时更新游戏时间
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
+    let interval: NodeJS.Timeout | null = null;
 
     if (isGameStarted && !isGameCompleted && startTime) {
       // 立即更新一次时间
       const updateTime = () => {
-        const now = Date.now()
-        const elapsed = Math.round((now - startTime) / 1000)
-        setCurrentTime(elapsed)
-      }
+        const now = Date.now();
+        const elapsed = Math.round((now - startTime) / 1000);
+        setCurrentTime(elapsed);
+      };
 
-      updateTime() // 立即执行一次
-      interval = setInterval(updateTime, 100) // 每100ms更新一次，更精确
+      updateTime(); // 立即执行一次
+      interval = setInterval(updateTime, 100); // 每100ms更新一次，更精确
     }
 
     return () => {
       if (interval) {
-        clearInterval(interval)
+        clearInterval(interval);
       }
-    }
-  }, [isGameStarted, isGameCompleted, startTime])
+    };
+  }, [isGameStarted, isGameCompleted, startTime]);
 
   useEffect(() => {
-    initializeGame()
-  }, [initializeGame])
+    initializeGame();
+  }, [initializeGame]);
 
   // 页面加载时初始化记录
   useEffect(() => {
-    loadBestRecords()
-  }, [loadBestRecords])
+    loadBestRecords();
+  }, [loadBestRecords]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 select-none">
@@ -526,27 +526,27 @@ const SchulteGrid: React.FC = () => {
               <CardContent className="p-6">
                 {!isGameStarted && !isGameCompleted
                   ? (
-                      <div className="text-center py-8">
-                        <div className="text-6xl mb-6">🎯</div>
-                        <h2 className="text-2xl font-bold mb-4">准备开始挑战？</h2>
-                        <p className="text-muted-foreground mb-8">
-                          当前配置：
-                          {getGridSizeName(gameConfig.gridSize)}
-                          {getDifficultyName(gameConfig.difficulty)}
-                          模式
-                        </p>
-                        <Button onClick={startGame} size="lg" className="px-8">
-                          开始游戏
-                        </Button>
-                      </div>
+                    <div className="text-center py-8">
+                      <div className="text-6xl mb-6">🎯</div>
+                      <h2 className="text-2xl font-bold mb-4">准备开始挑战？</h2>
+                      <p className="text-muted-foreground mb-8">
+                        当前配置：
+                        {getGridSizeName(gameConfig.gridSize)}
+                        {getDifficultyName(gameConfig.difficulty)}
+                        模式
+                      </p>
+                      <Button onClick={startGame} size="lg" className="px-8">
+                        开始游戏
+                      </Button>
+                    </div>
                     )
                   : (
-                      <>
-                        {/* 游戏方格 */}
-                        <div className="flex justify-center items-center mb-6 w-full overflow-hidden">
-                          <div
-                            className="grid gap-1 sm:gap-1.5 lg:gap-2"
-                            style={{
+                    <>
+                      {/* 游戏方格 */}
+                      <div className="flex justify-center items-center mb-6 w-full overflow-hidden">
+                        <div
+                          className="grid gap-1 sm:gap-1.5 lg:gap-2"
+                          style={{
                               gridTemplateColumns: `repeat(${gameConfig.gridSize}, 1fr)`,
                               maxWidth: gameConfig.gridSize === 3
                                 ? '300px'
@@ -555,84 +555,84 @@ const SchulteGrid: React.FC = () => {
                                   : '500px', // 增加9×9的maxWidth
                               width: '100%',
                             }}
-                          >
-                            {grid.map((number, index) => (
-                              <button
-                                key={index}
-                                onClick={() => handleCellClick(number)}
-                                className={getCellStyle(number)}
-                                disabled={!isGameStarted || isGameCompleted}
-                                onMouseDown={e => e.preventDefault()}
-                                onDragStart={e => e.preventDefault()}
-                              >
-                                {number}
-                              </button>
+                        >
+                          {grid.map((number, index) => (
+                            <button
+                              key={index}
+                              onClick={() => handleCellClick(number)}
+                              className={getCellStyle(number)}
+                              disabled={!isGameStarted || isGameCompleted}
+                              onMouseDown={e => e.preventDefault()}
+                              onDragStart={e => e.preventDefault()}
+                            >
+                              {number}
+                            </button>
                             ))}
+                        </div>
+                      </div>
+
+                      {/* 游戏完成 */}
+                      {isGameCompleted && (
+                      <div className="text-center py-6 border-t">
+                        <div className="flex items-center justify-center gap-2 mb-4">
+                          <Trophy className="h-8 w-8 text-yellow-600" />
+                          <h2 className="text-3xl font-bold text-yellow-600">恭喜完成！</h2>
+                          {isNewRecord && (
+                          <Badge variant="destructive" className="animate-pulse ml-2">
+                            🎉 新记录!
+                          </Badge>
+                              )}
+                        </div>
+
+                        {isNewRecord && (
+                        <div className="mb-4 p-3 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg border border-yellow-200">
+                          <p className="text-yellow-800 font-semibold">
+                            🏆 恭喜！您在
+                            {getGridSizeName(gameConfig.gridSize)}
+                            {getDifficultyName(gameConfig.difficulty)}
+                            模式下创造了新记录！
+                          </p>
+                        </div>
+                            )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-md mx-auto mb-6">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-blue-600">
+                              {getGameTime()}
+                              s
+                            </div>
+                            <div className="text-sm text-muted-foreground">完成时间</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-red-600">{mistakes}</div>
+                            <div className="text-sm text-muted-foreground">错误次数</div>
+                          </div>
+                          <div className="text-center">
+                            <Badge variant={getPerformanceRating().variant} className="text-lg px-3 py-1">
+                              {getPerformanceRating().text}
+                            </Badge>
                           </div>
                         </div>
 
-                        {/* 游戏完成 */}
-                        {isGameCompleted && (
-                          <div className="text-center py-6 border-t">
-                            <div className="flex items-center justify-center gap-2 mb-4">
-                              <Trophy className="h-8 w-8 text-yellow-600" />
-                              <h2 className="text-3xl font-bold text-yellow-600">恭喜完成！</h2>
-                              {isNewRecord && (
-                                <Badge variant="destructive" className="animate-pulse ml-2">
-                                  🎉 新记录!
-                                </Badge>
-                              )}
-                            </div>
+                        {/* 显示得分信息 */}
+                        <div className="mb-6 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                          <p className="text-sm text-purple-700 mb-1">综合得分</p>
+                          <p className="text-2xl font-bold text-purple-600">
+                            {calculateScore(getGameTime(), mistakes, gameConfig.gridSize).toLocaleString()}
+                          </p>
+                        </div>
 
-                            {isNewRecord && (
-                              <div className="mb-4 p-3 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg border border-yellow-200">
-                                <p className="text-yellow-800 font-semibold">
-                                  🏆 恭喜！您在
-                                  {getGridSizeName(gameConfig.gridSize)}
-                                  {getDifficultyName(gameConfig.difficulty)}
-                                  模式下创造了新记录！
-                                </p>
-                              </div>
-                            )}
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-md mx-auto mb-6">
-                              <div className="text-center">
-                                <div className="text-2xl font-bold text-blue-600">
-                                  {getGameTime()}
-                                  s
-                                </div>
-                                <div className="text-sm text-muted-foreground">完成时间</div>
-                              </div>
-                              <div className="text-center">
-                                <div className="text-2xl font-bold text-red-600">{mistakes}</div>
-                                <div className="text-sm text-muted-foreground">错误次数</div>
-                              </div>
-                              <div className="text-center">
-                                <Badge variant={getPerformanceRating().variant} className="text-lg px-3 py-1">
-                                  {getPerformanceRating().text}
-                                </Badge>
-                              </div>
-                            </div>
-
-                            {/* 显示得分信息 */}
-                            <div className="mb-6 p-3 bg-purple-50 rounded-lg border border-purple-200">
-                              <p className="text-sm text-purple-700 mb-1">综合得分</p>
-                              <p className="text-2xl font-bold text-purple-600">
-                                {calculateScore(getGameTime(), mistakes, gameConfig.gridSize).toLocaleString()}
-                              </p>
-                            </div>
-
-                            <div className="flex gap-4 justify-center">
-                              <Button onClick={restartGame} variant="default">
-                                再玩一次
-                              </Button>
-                              <Button onClick={goBack} variant="outline">
-                                返回首页
-                              </Button>
-                            </div>
-                          </div>
+                        <div className="flex gap-4 justify-center">
+                          <Button onClick={restartGame} variant="default">
+                            再玩一次
+                          </Button>
+                          <Button onClick={goBack} variant="outline">
+                            返回首页
+                          </Button>
+                        </div>
+                      </div>
                         )}
-                      </>
+                    </>
                     )}
               </CardContent>
             </Card>
@@ -656,7 +656,7 @@ const SchulteGrid: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {(() => {
-                  const currentBest = getCurrentBestRecord()
+                  const currentBest = getCurrentBestRecord();
                   if (currentBest) {
                     return (
                       <div className="space-y-4">
@@ -693,7 +693,7 @@ const SchulteGrid: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   }
                   else {
                     return (
@@ -706,7 +706,7 @@ const SchulteGrid: React.FC = () => {
                           完成第一局游戏来创建记录！
                         </p>
                       </div>
-                    )
+                    );
                   }
                 })()}
               </CardContent>
@@ -726,11 +726,11 @@ const SchulteGrid: React.FC = () => {
               <CardContent>
                 {Object.keys(bestRecords).length > 0
                   ? (
-                      <div className="space-y-3 max-h-80 overflow-y-auto">
-                        {Object.entries(bestRecords)
+                    <div className="space-y-3 max-h-80 overflow-y-auto">
+                      {Object.entries(bestRecords)
                           .sort((a, b) => b[1].score - a[1].score) // 按得分排序
                           .map(([key, record]) => {
-                            const [gridSize, difficulty] = key.split('-')
+                            const [gridSize, difficulty] = key.split('-');
                             return (
                               <div
                                 key={key}
@@ -770,17 +770,17 @@ const SchulteGrid: React.FC = () => {
                                   </div>
                                 </div>
                               </div>
-                            )
+                            );
                           })}
-                      </div>
+                    </div>
                     )
                   : (
-                      <div className="text-center py-6">
-                        <div className="text-3xl mb-3">📊</div>
-                        <p className="text-muted-foreground text-sm">
-                          暂无历史记录
-                        </p>
-                      </div>
+                    <div className="text-center py-6">
+                      <div className="text-3xl mb-3">📊</div>
+                      <p className="text-muted-foreground text-sm">
+                        暂无历史记录
+                      </p>
+                    </div>
                     )}
               </CardContent>
             </Card>
@@ -804,7 +804,7 @@ const SchulteGrid: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SchulteGrid
+export default SchulteGrid;

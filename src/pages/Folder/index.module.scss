@@ -44,7 +44,8 @@
 
 /* 文件夹标签 */
 .folderLabel {
-  width: 140px; /* 稍微增加宽度以适应更长的文件名 */
+  width: 140px;
+  /* 稍微增加宽度以适应更长的文件名 */
   height: 30px;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 2px solid #e2e8f0;
@@ -69,7 +70,8 @@
   width: 280px;
   height: 180px;
   top: 10px;
-  left: 20px; /* 向右移动10px，让卡片更好地放在文件夹内 */
+  left: 20px;
+  /* 向右移动10px，让卡片更好地放在文件夹内 */
   transform-style: preserve-3d;
   transform: translateZ(51px);
 }
@@ -245,13 +247,6 @@
   font-size: 1.2rem;
 }
 
-/* 滚动触发版本样式 */
-.fileIdeaScrollContainer {
-  width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-  padding: 50px 0;
-}
 
 .fileCardContainer {
   display: flex;
@@ -398,25 +393,25 @@
 }
 
 /* 响应式设计 */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   .folderCard {
     flex-direction: column;
     min-height: 600px;
   }
-  
+
   .folderShell {
     flex: 0 0 50%;
   }
-  
+
   .contentAreaScroll {
     padding: 2rem;
   }
-}
+} */
 
 /* 滚动触发布局 */
 .fileIdeaScrollContainer {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: calc(100vh - 64px);
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   display: flex;
   overflow: hidden;
@@ -429,7 +424,6 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   perspective: 1000px;
 }
 
@@ -496,7 +490,8 @@
   align-items: center;
   position: relative;
   padding-top: 20px;
-  margin-bottom: -120px; /* 这是关键！让卡片重叠 */
+  margin-bottom: -120px;
+  /* 这是关键！让卡片重叠 */
 }
 
 /* 背景装饰 */
@@ -558,7 +553,6 @@
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  height: 100vh;
   overflow: hidden;
 }
 
@@ -615,85 +609,3 @@
   font-size: 0.9rem;
   font-weight: 500;
 }
-
-/* 响应式设计 */
-@media (max-width: 1024px) {
-  .fileIdeaScrollContainer {
-    flex-direction: column;
-  }
-  
-  .filesScrollArea {
-    flex: 0 0 50%;
-  }
-  
-  .contentDetailArea {
-    flex: 1;
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .filesScrollWrapper {
-    max-width: 320px;
-  }
-  
-  .fileCard {
-    width: 250px;
-    height: 160px;
-  }
-  
-  .fileIcon {
-    font-size: 2.5rem;
-  }
-  
-  .fileName {
-    font-size: 0.9rem;
-  }
-  
-  .fileCardContainer {
-    margin-bottom: -100px;
-  }
-}
-
-@media (max-width: 768px) {
-  .filesScrollArea {
-    padding: 1rem;
-  }
-  
-  .scrollHeader {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-    padding-bottom: 0.8rem;
-  }
-  
-  .scrollHeader h2 {
-    font-size: 1.5rem;
-  }
-  
-  .filesScrollWrapper {
-    max-width: 280px;
-  }
-  
-  .fileCard {
-    width: 220px;
-    height: 140px;
-  }
-  
-  .fileIcon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .fileName {
-    font-size: 0.8rem;
-    margin-bottom: 0.3rem;
-  }
-  
-  .fileDate {
-    font-size: 0.7rem;
-  }
-  
-  .fileCardContainer {
-    margin-bottom: -80px;
-  }
-} 

@@ -1,8 +1,8 @@
-import { Clock, Star, Users } from 'lucide-react'
-import React from 'react'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import GameButton from '../components/GameButton'
+import { Clock, Star, Users } from 'lucide-react';
+import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import GameButton from '../components/GameButton';
 
 const Home: React.FC = () => {
   const games = [
@@ -39,35 +39,35 @@ const Home: React.FC = () => {
       rating: 4.5,
       duration: '随时',
     },
-  ]
+  ];
 
   const scrollToGames = () => {
-    const gamesSection = document.getElementById('games-section')
+    const gamesSection = document.getElementById('games-section');
     if (gamesSection) {
-      gamesSection.scrollIntoView({ behavior: 'smooth' })
+      gamesSection.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
 
   const getDifficultyVariant = (difficulty: string) => {
     switch (difficulty) {
-      case '简单': return 'default'
-      case '中等': return 'secondary'
-      case '困难': return 'destructive'
-      default: return 'outline'
+      case '简单': return 'default';
+      case '中等': return 'secondary';
+      case '困难': return 'destructive';
+      default: return 'outline';
     }
-  }
+  };
 
   const getCategoryVariant = (category: string) => {
     switch (category) {
-      case '冒险': return 'default'
-      case 'RPG': return 'secondary'
-      case '竞速': return 'outline'
-      case '策略': return 'default'
-      case '动作': return 'destructive'
-      case '益智': return 'default'
-      default: return 'secondary'
+      case '冒险': return 'default';
+      case 'RPG': return 'secondary';
+      case '竞速': return 'outline';
+      case '策略': return 'default';
+      case '动作': return 'destructive';
+      case '益智': return 'default';
+      default: return 'secondary';
     }
-  }
+  };
 
   return (
     <div className="min-h-screen">
@@ -216,7 +216,7 @@ const Home: React.FC = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

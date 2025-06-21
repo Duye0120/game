@@ -6,7 +6,7 @@ export default function createLights(scene: THREE.Scene) {
   scene.add(ambientLight);
 
   // 方向光
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.8);
   directionalLight.position.set(10, 10, 5);
   directionalLight.castShadow = true;
   directionalLight.shadow.mapSize.width = 2048;
@@ -21,4 +21,4 @@ export default function createLights(scene: THREE.Scene) {
   scene.add(directionalLight);
 
   return { ambientLight, directionalLight };
-} 
+}

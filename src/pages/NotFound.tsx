@@ -1,19 +1,19 @@
-import { Home, RotateCcw } from 'lucide-react'
-import React from 'react'
-import { useNavigate } from 'react-router'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Home, RotateCcw } from 'lucide-react';
+import React from 'react';
+import { useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 const NotFound: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleGoHome = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   const handleGoBack = () => {
-    window.history.back()
-  }
+    window.history.back();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100 flex items-center justify-center p-4">
@@ -58,7 +58,7 @@ const NotFound: React.FC = () => {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

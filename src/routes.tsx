@@ -1,14 +1,14 @@
 import {
   createBrowserRouter,
-} from 'react-router'
+} from 'react-router';
 
 // 导入页面组件
-import Folder from './pages/Folder'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import SchulteGrid from './pages/SchulteGrid'
-import Snake3D from './pages/Snake3d'
-import Root from './root'
+import Folder from './pages/Folder';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import SchulteGrid from './pages/SchulteGrid';
+import Snake3D from './pages/Snake3d';
+import Root from './root';
 
 export const router = createBrowserRouter([
   {
@@ -37,4 +37,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
+]);

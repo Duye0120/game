@@ -1,7 +1,6 @@
+import type { Position } from './types';
 import * as THREE from 'three';
 import LinkedList from './LinkedList';
-import ListNode from './ListNode';
-import { Position } from './types';
 import { resolution } from './Params';
 
 interface SnakeSegment {
@@ -17,7 +16,7 @@ export default class Snake {
   mouthColor: number;
   scene: THREE.Scene;
 
-  constructor(scene: THREE.Scene, startPosition: Position = { x: 10, y: 10 }, snakeColor = 0x1d5846, mouthColor = 0x39c09f) {
+  constructor(scene: THREE.Scene, startPosition: Position = { x: 10, y: 10 }, snakeColor = 0x1D5846, mouthColor = 0x39C09F) {
     this.scene = scene;
     this.body = new LinkedList<SnakeSegment>();
     this.direction = { x: 1, y: 0 };
@@ -73,17 +72,18 @@ export default class Snake {
   move() {
     this.direction = this.nextDirection;
 
-    if (!this.body.head) return false;
+    if (!this.body.head)
+return false;
 
     const head = this.body.head.data;
     const newPosition: Position = {
       x: head.position.x + this.direction.x,
-      y: head.position.y + this.direction.y
+      y: head.position.y + this.direction.y,
     };
 
     // 检查边界碰撞
-    if (newPosition.x < 0 || newPosition.x >= resolution.x ||
-      newPosition.y < 0 || newPosition.y >= resolution.y) {
+    if (newPosition.x < 0 || newPosition.x >= resolution.x
+      || newPosition.y < 0 || newPosition.y >= resolution.y) {
       return false;
     }
 
@@ -118,7 +118,8 @@ export default class Snake {
   }
 
   grow() {
-    if (!this.body.head) return;
+    if (!this.body.head)
+return;
 
     // 找到尾部
     let tail = this.body.head;
@@ -130,7 +131,7 @@ export default class Snake {
     const tailPosition = tail.data.position;
     const newPosition: Position = {
       x: tailPosition.x - this.direction.x,
-      y: tailPosition.y - this.direction.y
+      y: tailPosition.y - this.direction.y,
     };
 
     this.addSegment(newPosition, (this.body.head.data.mesh.material as THREE.MeshStandardMaterial).color.getHex());
@@ -160,16 +161,20 @@ export default class Snake {
   }
 
   private updateHeadRotation() {
-    if (!this.body.head) return;
+    if (!this.body.head)
+return;
 
     const head = this.body.head.data.mesh;
     if (this.direction.x === 1) {
       head.rotation.y = 0;
-    } else if (this.direction.x === -1) {
+    }
+ else if (this.direction.x === -1) {
       head.rotation.y = Math.PI;
-    } else if (this.direction.y === 1) {
+    }
+ else if (this.direction.y === 1) {
       head.rotation.y = Math.PI / 2;
-    } else if (this.direction.y === -1) {
+    }
+ else if (this.direction.y === -1) {
       head.rotation.y = -Math.PI / 2;
     }
   }
@@ -185,4 +190,4 @@ export default class Snake {
       current = current.next;
     }
   }
-} 
+}

@@ -1,5 +1,5 @@
+import type { Position } from './types';
 import * as THREE from 'three';
-import { Position } from './types';
 import { resolution } from './Params';
 
 export default class Entity {
@@ -24,7 +24,7 @@ export default class Entity {
   static indexToPosition(index: number): Position {
     return {
       x: index % resolution.x,
-      y: Math.floor(index / resolution.x)
+      y: Math.floor(index / resolution.x),
     };
   }
-} 
+}

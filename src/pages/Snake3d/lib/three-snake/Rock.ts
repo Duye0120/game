@@ -1,9 +1,9 @@
+import type { Position } from './types';
 import * as THREE from 'three';
 import Entity from './Entity';
-import { Position } from './types';
 
 export default class Rock extends Entity {
-  constructor(position: Position, color = 0xebebeb) {
+  constructor(position: Position, color = 0xEBEBEB) {
     const geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
     geometry.translate(0, 0.4, 0);
 
@@ -14,4 +14,4 @@ export default class Rock extends Entity {
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
   }
-} 
+}

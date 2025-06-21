@@ -1,6 +1,6 @@
+import type { Position } from './types';
 import * as THREE from 'three';
 import Entity from './Entity';
-import { Position } from './types';
 
 export default class Tree extends Entity {
   constructor(position: Position, color = 0x639541) {
@@ -14,4 +14,4 @@ export default class Tree extends Entity {
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
   }
-} 
+}

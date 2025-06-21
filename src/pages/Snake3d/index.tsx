@@ -1,9 +1,9 @@
+import type { GameEvent, GameState } from './lib/three-snake/types';
+import { Home, Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Home } from 'lucide-react';
 import SnakeGame from './lib/three-snake/SnakeGame';
-import { GameState, GameEvent } from './lib/three-snake/types';
 
 const Snake3D: React.FC = () => {
   const navigate = useNavigate();
@@ -13,19 +13,20 @@ const Snake3D: React.FC = () => {
     score: 0,
     isPlaying: false,
     isPaused: false,
-    gameOver: false
+    gameOver: false,
   });
   const [selectedPalette, setSelectedPalette] = useState('orange');
   const [isMuted, setIsMuted] = useState(false);
- 
+
   const palettes = [
     { name: 'green', label: '森林绿', color: '#4caf50' },
     { name: 'orange', label: '夕阳橙', color: '#ff9800' },
-    { name: 'lilac', label: '梦幻紫', color: '#9c27b0' }
+    { name: 'lilac', label: '梦幻紫', color: '#9c27b0' },
   ];
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current)
+return;
 
     const handleGameEvent = (event: GameEvent) => {
       switch (event.type) {
@@ -58,11 +59,11 @@ const Snake3D: React.FC = () => {
 
   const handleStartGame = () => {
     if (gameRef.current) {
-      setGameState(prev => ({ 
-        ...prev, 
-        gameOver: false, 
-        isPlaying: false, 
-        isPaused: false 
+      setGameState(prev => ({
+        ...prev,
+        gameOver: false,
+        isPlaying: false,
+        isPaused: false,
       }));
       gameRef.current.startGame();
     }
@@ -80,7 +81,7 @@ const Snake3D: React.FC = () => {
         score: 0,
         isPlaying: false,
         isPaused: false,
-        gameOver: false
+        gameOver: false,
       });
       gameRef.current.resetGame();
     }
@@ -103,9 +104,12 @@ const Snake3D: React.FC = () => {
   };
 
   const getGameStatusText = () => {
-    if (gameState.gameOver) return '游戏结束';
-    if (gameState.isPaused) return '游戏暂停';
-    if (gameState.isPlaying) return '游戏中';
+    if (gameState.gameOver)
+return '游戏结束';
+    if (gameState.isPaused)
+return '游戏暂停';
+    if (gameState.isPlaying)
+return '游戏中';
     return '准备开始';
   };
 
@@ -147,7 +151,8 @@ const Snake3D: React.FC = () => {
                   onClick={() => {
                     if (gameRef.current && typeof gameRef.current.testClipping === 'function') {
                       gameRef.current.testClipping();
-                    } else {
+                    }
+ else {
                       console.log('❌ 方法不存在');
                       console.log('🔍 gameRef.current 方法列表:', Object.getOwnPropertyNames(Object.getPrototypeOf(gameRef.current || {})));
                     }
@@ -163,7 +168,8 @@ const Snake3D: React.FC = () => {
                   onClick={() => {
                     if (gameRef.current && typeof gameRef.current.resetCamera === 'function') {
                       gameRef.current.resetCamera();
-                    } else {
+                    }
+ else {
                       console.log('❌ resetCamera方法不存在');
                     }
                   }}
@@ -215,7 +221,7 @@ const Snake3D: React.FC = () => {
                   缩小
                 </Button>
               </div>
-              
+
               {/* 相机控制按钮 */}
               <Button
                 variant="outline"
@@ -227,10 +233,10 @@ const Snake3D: React.FC = () => {
                 }}
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
               </Button>
-              
+
               {/* 暂停/快进控制 */}
               <Button
                 onClick={handlePauseGame}
@@ -270,7 +276,7 @@ const Snake3D: React.FC = () => {
           {/* 左下角色彩主题选择器 */}
           <div className="absolute left-4 bottom-4 pointer-events-auto z-50">
             <div className="flex flex-col space-y-2">
-              {palettes.map((palette) => (
+              {palettes.map(palette => (
                 <button
                   key={palette.name}
                   onClick={() => handlePaletteChange(palette.name)}
@@ -316,7 +322,9 @@ const Snake3D: React.FC = () => {
               <div className="bg-black/30 backdrop-blur-sm rounded-lg px-6 py-3">
                 <div className="flex items-center space-x-4 text-white">
                   <div className="text-sm">
-                    状态: {getGameStatusText()}
+                    状态:
+                    {' '}
+                    {getGameStatusText()}
                   </div>
                   <div className="w-px h-6 bg-white/30" />
                   <div className="text-sm">
@@ -360,4 +368,4 @@ const Snake3D: React.FC = () => {
   );
 };
 
-export default Snake3D; 
+export default Snake3D;

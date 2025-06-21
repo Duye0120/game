@@ -33,4 +33,4 @@ export interface Position {
 export interface GameEvent {
   type: 'score' | 'gameOver' | 'start' | 'pause' | 'resume';
   data?: any;
-} 
+}

@@ -59,7 +59,8 @@ const gameRef = useRef<SnakeGame | null>(null);
 const containerRef = useRef<HTMLDivElement>(null);
 
 useEffect(() => {
-  if (!containerRef.current) return;
+  if (!containerRef.current)
+return;
 
   const handleGameEvent = (event: GameEvent) => {
     // 处理游戏事件
