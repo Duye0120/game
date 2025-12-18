@@ -18,6 +18,8 @@ const GameButton: React.FC<GameButtonProps> = ({ gameId }) => {
     switch (id) {
       case 1:
         return '/game/schulte-grid';
+      case 2:
+        return '/game/christmas-tree';
       default:
         return '/';
     }

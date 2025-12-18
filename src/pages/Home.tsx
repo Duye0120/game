@@ -16,6 +16,17 @@ const Home: React.FC = () => {
       difficulty: "简单",
       rating: 4.8,
       duration: "2-5分钟"
+    },
+    {
+      id: 2,
+      title: "圣诞树",
+      description: "一棵浪漫的圣诞树，送给最爱的人，写下你的祝福，让爱在雪花中绽放 ❤️",
+      image: "🎄",
+      category: "浪漫",
+      players: "双人",
+      difficulty: "简单",
+      rating: 5.0,
+      duration: "无限"
     }
   ];
 
@@ -43,6 +54,7 @@ const Home: React.FC = () => {
       case '策略': return 'default';
       case '动作': return 'destructive';
       case '益智': return 'default';
+      case '浪漫': return 'destructive';
       default: return 'secondary';
     }
   };
